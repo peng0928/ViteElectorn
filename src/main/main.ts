@@ -1,6 +1,6 @@
 import {app, BrowserWindow, ipcMain, session} from 'electron';
 import {join} from 'path';
-
+require('./menu')
 function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,

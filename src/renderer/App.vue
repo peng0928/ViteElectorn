@@ -1,38 +1,40 @@
 <template>
-  <div class="h-screen">
-    <a-layout class="h-full">
+  <div class="min-h-screen">
+    <a-layout class="">
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible
-                      :style="{ background: 'linear-gradient(to bottom, #6366f1, #a855f7)' }">
-        <div class="logo text-center flex items-center justify-center h-full">
-          <icon icon="icon-park:tickets-one" class="text-3xl hover:text-4xl duration-300 "/>
+        :style="{ background: 'linear-gradient(to bottom, #6366f1, #a855f7)' }" class="min-h-screen max-h-max">
+        <div class="logo text-center flex items-center justify-center">
+          <icon icon="icon-park:tickets-one" class="text-3xl hover:text-4xl duration-300 " />
         </div>
-        <a-menu
-            v-model:openKeys="state.openKeys"
-            v-model:selectedKeys="state.selectedKeys"
-            mode="inline"
-            :inline-collapsed="state.collapsed"
-            :items="items"
-            :style="{ background: 'transparent'}"
-        ></a-menu>
+        <a-menu v-model:openKeys="state.openKeys" v-model:selectedKeys="state.selectedKeys" mode="inline"
+          :inline-collapsed="state.collapsed" :items="items" :style="{ background: 'transparent' }"></a-menu>
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
-          <div class="flex justify-between">
+          <div class="flex justify-between ">
             <div>
-              <menu-unfold-outlined
-                  v-if="collapsed"
-                  class="trigger"
-                  @click="() => (collapsed = !collapsed)"
-              />
-              <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
+              <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
+              <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
             </div>
-            <div class="pr-5">
+            <div class="pr-5 flex gap-3 items-center">
+              <a-dropdown :trigger="['click']" :open="state.searchDropdown">
+                <a-input-search v-model:value="value" placeholder="搜索演唱会" enter-button="搜索" size="large"
+                  @search="onSearch">
+                  <template #prefix>
+                    <icon icon="icon-park:tickets-one" />
+                  </template>
+                </a-input-search>
+                <template #overlay>
+                  <a-menu>
+                  </a-menu>
+                </template>
+              </a-dropdown>
               <a-dropdown :trigger="['click']">
-                <a-button type="text">
+                <a-button type="text" class="flex items-center gap-3">
+                  登录
                   <template #icon>
                     <icon icon="icon-park:tickets-one" />
                   </template>
-                    登录
                 </a-button>
                 <template #overlay>
                   <a-menu>
@@ -44,9 +46,11 @@
           </div>
 
         </a-layout-header>
-        <a-layout-content :style="{background: '#fff' }" class="p-5">
-          <div>
-            <router-view/>
+        <a-layout-content :style="{ background: '#fff' }" class="p-5">
+          <div class="h-full">
+            <a-card class="h-full" hoverable>
+              <router-view />
+            </a-card>
           </div>
         </a-layout-content>
       </a-layout>
@@ -54,19 +58,26 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {reactive, watch, h, ref} from 'vue';
+import { reactive, watch, h, ref } from 'vue';
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MailOutlined,
   CustomerServiceOutlined,
+  UserOutlined,
+  ShoppingCartOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons-vue';
+import router from './router';
+import { Icon } from '@iconify/vue';
 
 const state = reactive({
   collapsed: false,
   selectedKeys: ['1'],
   openKeys: ['sub1'],
   preOpenKeys: ['sub1'],
+  searchDropdown: ref(false),
 });
 const items = reactive([
   {
@@ -74,26 +85,53 @@ const items = reactive([
     icon: () => h(CustomerServiceOutlined),
     label: '演出',
     title: '演出',
+    onClick: () => router.push('/') // 新增路由跳转
   },
   {
-    key: 'sub1',
-    icon: () => h(MailOutlined),
-    label: 'Navigation One',
-    title: 'Navigation One',
+    key: '2',
+    icon: () => h(Icon, {
+      icon: 'ic:round-star-border-purple500',
+      inline: true,
+      style: { color: 'white' } // 根据需要设置颜色
+    }),
+    label: '订单',
+    title: '订单',
     children: [
       {
-        key: '5',
-        label: 'Option 5',
-        title: 'Option 5',
+        key: '3',
+        label: '购票中',
+        title: '购票中',
+        icon: () => h(Icon, {
+          icon: 'icon-park:ticket',
+          style: { color: 'white' } // 根据需要设置颜色
+        }),
+        onClick: () => router.push('/orders/pending')
+      },
+      {
+        key: '4',
+        label: '票夹',
+        title: '票夹',
+        icon: () => h(Icon, {
+          icon: 'icon-park:ticket',
+          inline: true,
+        }),
+        onClick: () => router.push('/orders/tickets')
       },
     ],
   },
+  {
+    key: '5',
+    icon: () => h(UserOutlined),
+    label: '我的',
+    title: '我的',
+    onClick: () => router.push('/profile')
+  },
 ]);
 watch(
-    () => state.openKeys,
-    (_val, oldVal) => {
-      state.preOpenKeys = oldVal;
-    },
+  () => state.openKeys,
+  (_val, oldVal) => {
+    state.preOpenKeys = oldVal;
+  },
 );
 const collapsed = ref<boolean>(false);
 </script>
@@ -119,9 +157,22 @@ const collapsed = ref<boolean>(false);
 
 
 /* 去掉父菜单项的文本颜色高亮 */
-.ant-menu-submenu-selected > .ant-menu-submenu-title {
+.ant-menu-submenu-selected>.ant-menu-submenu-title {
   color: white !important;
 }
 
 
+/* 添加以下样式 */
+.ant-layout-sider {
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  overflow: hidden;
+}
+
+.ant-layout-content {
+  height: calc(100vh - 64px);
+  /* 64px 是 header 高度 */
+  overflow-y: auto;
+}
 </style>

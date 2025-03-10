@@ -3,7 +3,6 @@
     <a-card class="w-full max-w-md shadow-lg rounded-2xl">
       <div class="text-center mb-8">
         <h1 class="text-2xl font-bold text-gray-800">手机验证码登录</h1>
-        <p class="text-gray-500 mt-2">请输入您的手机号码</p>
       </div>
 
       <a-form :model="form" @submit="handleSubmit" layout="vertical">

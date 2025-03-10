@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const path_1 = require("path");
+require('./menu');
 function createWindow() {
     const mainWindow = new electron_1.BrowserWindow({
         width: 800,

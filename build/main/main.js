@@ -4,6 +4,7 @@ const electron_1 = require("electron");
 const path_1 = require("path");
 require('./menu');
 function createWindow() {
+    console.log((0, path_1.join)(__dirname + "../renderer/public/favicon.png"));
     const mainWindow = new electron_1.BrowserWindow({
         width: 800,
         height: 600,
@@ -11,7 +12,9 @@ function createWindow() {
             preload: (0, path_1.join)(__dirname, 'preload.js'),
             nodeIntegration: false,
             contextIsolation: true,
-        }
+        },
+        useContentSize: true,
+        icon: (0, path_1.join)(__dirname + "/static/favicon.png"),
     });
     if (process.env.NODE_ENV === 'development') {
         const rendererPort = process.argv[2];

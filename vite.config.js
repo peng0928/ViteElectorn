@@ -12,6 +12,13 @@ const config = defineConfig({
     publicDir: 'public',
     server: {
         port: 8080,
+        proxy: {
+            '/api': {
+                target: 'http://127.0.0.1:6688', // 你的后端地址
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, '/api')
+            }
+        }
     },
     open: false,
     build: {
@@ -21,7 +28,6 @@ const config = defineConfig({
     plugins: [
         vuePlugin(),
     ],
-
 });
 
 module.exports = config;

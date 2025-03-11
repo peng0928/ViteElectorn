@@ -1,7 +1,8 @@
 import {app, BrowserWindow, ipcMain, session} from 'electron';
-import {join} from 'path';
+import { join } from 'path';
 require('./menu')
-function createWindow () {
+function createWindow() {
+  console.log(join(__dirname + "../renderer/public/favicon.png"))
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -9,7 +10,9 @@ function createWindow () {
       preload: join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-    }
+    },
+    useContentSize: true,
+    icon: join(__dirname+"/static/favicon.png"),
   });
 
   if (process.env.NODE_ENV === 'development') {

@@ -45,15 +45,14 @@ class AioHttpClient:
         self.cookie = kwargs.get('cookie')
 
     async def __aenter__(self):
-        conn = aiohttp.TCPConnector(ssl=False)
-        self.request = aiohttp.ClientSession(headers=self.headers, cookies=self.cookie, connector=conn)
+        self.conn = aiohttp.TCPConnector(ssl=False)
+        self.request = aiohttp.ClientSession(headers=self.headers, cookies=self.cookie, connector=self.conn)
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
         await self.request.close()
+        await self.conn.close()
 
-    async def close(self):
-        await self.request.close()
 
     def get_token(self, request: object):
         cookie = request.cookies or {}

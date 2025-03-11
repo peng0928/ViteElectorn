@@ -7,7 +7,6 @@ from fastapi.responses import HTMLResponse
 
 from utils.request.login import RequestClient
 
-client = RequestClient()
 router = APIRouter(
     prefix="/api",
     tags=["登录"],
@@ -18,7 +17,7 @@ router = APIRouter(
 @router.post("/captcha")
 async def captcha(item: dict, request: Request):
     phone = item.get("phone") or ""
-    async with client as c:
+    async with RequestClient() as c:
         data = await c.get_captcha(phone=phone)
     msg = data.get("msg")
     if msg == "操作成功":
@@ -32,7 +31,7 @@ async def captcha(item: dict, request: Request):
 async def login(item: dict, request: Request):
     captcha = item.get("captcha")
     phone = item.get("phone")
-    async with client as c:
+    async with RequestClient() as c:
         data = await c.verify_captcha(phone=phone, captcha=captcha)
     msg = data.get("msg") or ""
     token = data.get("token") or ""

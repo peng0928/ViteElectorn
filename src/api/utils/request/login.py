@@ -54,13 +54,54 @@ class RequestClient(AioHttpClient):
             "data": json_dict,
         }
         return query
+    @catch_exceptions_async
+    async def app_ticket(self, request: object):
+        cookie = self.get_token(request)
+        url = "https://api.livelab.com.cn/performance/app/ticket/list/v2?pageNum=1&pageSize=5"
+        headers = self.headers.copy()
+        headers.update({
+            'authorization': f"Bearer {cookie}",
+        })
+        response = await self.request.get(url, headers=headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or {}
+        json_dict = json_dict.get("list") or []
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+
+    @catch_exceptions_async
+    async def hotShop(self):
+        url = "https://api.livelab.com.cn/appShow/app/homepage/projects?projectModuleId=81&pageNum=1&pageSize=100&v="
+        response = await self.request.get(url, headers=self.headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or {}
+        json_dict = json_dict.get("list") or []
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+    @catch_exceptions_async
+    async def headShop(self):
+        url = "https://api.livelab.com.cn/appShow/app/homepage/banners?bannerModuleId=52"
+        response = await self.request.get(url, headers=self.headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or []
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
 
 
 async def main():
     phone = "17732639704"
     client = RequestClient()
     async with client as c:
-        data = await c.app_info("五月天")
+        data = await c.hotShop()
     print(data)
 
 

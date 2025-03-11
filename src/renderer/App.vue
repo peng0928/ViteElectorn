@@ -2,32 +2,26 @@
   <div class="min-h-screen">
     <a-layout class="bg-gray-100">
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible
-                      :style="{ background: 'linear-gradient(to bottom, #6366f1, #a855f7)' }"
-                      class="min-h-screen max-h-max">
-        <div class="logo text-center flex items-center justify-center">
-          <icon icon="icon-park:tickets-two" class="text-3xl hover:text-4xl duration-300 "/>
+        :style="{ background: 'linear-gradient(to bottom, #6366f1, #a855f7)' }" class="min-h-screen max-h-max">
+        <div class="logo text-center flex items-center justify-center" @click="router.push('/')">
+          <icon icon="icon-park:tickets-two" class="text-3xl hover:text-4xl duration-300 " />
         </div>
         <a-menu v-model:openKeys="state.openKeys" v-model:selectedKeys="state.selectedKeys" mode="inline"
-                :inline-collapsed="state.collapsed" :items="items" :style="{ background: 'transparent' }"></a-menu>
+          :inline-collapsed="state.collapsed" :items="items" :style="{ background: 'transparent' }"></a-menu>
       </a-layout-sider>
       <a-layout>
-        <a-layout-header :style="{ background: '#fff',  padding: 0 }">
+        <a-layout-header :style="{ background: '#fff', padding: 0 }">
           <div class="flex">
             <div>
-              <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)"/>
-              <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
+              <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
+              <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
             </div>
             <div class="pr-5 flex gap-3 items-center  ml-auto ">
               <a-dropdown :trigger="['click']">
-                <a-input-search
-                    v-model:value="state.searchValue"
-                    placeholder="搜索演唱会"
-                    enter-button="搜索"
-                    size="large"
-                    @input="handleSearchInput"
-                >
+                <a-input-search v-model:value="state.searchValue" placeholder="搜索演唱会" enter-button="搜索" size="large"
+                  @input="handleSearchInput">
                   <template #prefix>
-                    <icon icon="ic:twotone-saved-search" class="text-xl"/>
+                    <icon icon="ic:twotone-saved-search" class="text-xl" />
                   </template>
                 </a-input-search>
                 <template #overlay>
@@ -46,7 +40,7 @@
               <div v-if="!user.nickname" class="flex items-center">
                 <a-button type="text" @click="router.push('/login')">
                   <div class="flex items-center gap-2 text-base">
-                    <icon icon="ooui:log-in-ltr" class="align-middle"/>
+                    <icon icon="ooui:log-in-ltr" class="align-middle" />
                     <div class=" align-middle">登录</div>
                   </div>
                 </a-button>
@@ -55,7 +49,7 @@
                 <a-dropdown :trigger="['click']">
                   <a-button type="text" class="h-full">
                     <div class="flex items-center justify-center gap-1 font-bold">
-                      <icon icon="material-symbols:person-pin" class="align-middle"/>
+                      <icon icon="material-symbols:person-pin" class="align-middle" />
                       <div class="align-middle">{{ user.nickname }}</div>
                     </div>
                   </a-button>
@@ -63,13 +57,13 @@
                     <a-menu class="line-clamp-2">
                       <a-menu-item>
                         <div class="flex items-center gap-3 text-base">
-                          <icon icon="material-symbols:person-pin" class="align-middle"/>
+                          <icon icon="material-symbols:person-pin" class="align-middle" />
                           <div class=" align-middle">个人中心</div>
                         </div>
                       </a-menu-item>
                       <a-menu-item>
                         <div class="flex items-center gap-3 text-base" @click="logout">
-                          <icon icon="ooui:log-out-ltr" class="align-middle"/>
+                          <icon icon="ooui:log-out-ltr" class="align-middle" />
                           <div class="align-middle">退出登录</div>
                         </div>
                       </a-menu-item>
@@ -83,7 +77,7 @@
         <a-layout-content class="p-5">
           <div class="h-full">
             <div class="h-full">
-              <router-view/>
+              <router-view />
             </div>
           </div>
         </a-layout-content>
@@ -93,9 +87,9 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, watch, h, ref, onUnmounted, onMounted} from 'vue';
-import {message} from 'ant-design-vue';
-import {debounce} from 'lodash-es';
+import { reactive, watch, h, ref, onUnmounted, onMounted } from 'vue';
+import { message } from 'ant-design-vue';
+import { debounce } from 'lodash-es';
 import axios from 'axios';
 import {
   MenuFoldOutlined,
@@ -103,8 +97,8 @@ import {
   UserOutlined,
 } from '@ant-design/icons-vue';
 import router from './router';
-import {Icon} from '@iconify/vue';
-import {useUserStore} from './stores/userStore';
+import { Icon } from '@iconify/vue';
+import { useUserStore } from './stores/userStore';
 
 const userStore = useUserStore();
 const user = ref(userStore.userInfo);
@@ -124,7 +118,7 @@ const items = reactive([
     key: '1',
     icon: () => h(Icon, {
       icon: 'icon-park:music-one',
-      style: {color: 'white'} // 根据需要设置颜色
+      style: { color: 'white' } // 根据需要设置颜色
     }),
     label: '演出',
     title: '演出',
@@ -135,7 +129,7 @@ const items = reactive([
     icon: () => h(Icon, {
       icon: 'ic:round-star-border-purple500',
       inline: true,
-      style: {color: 'white'} // 根据需要设置颜色
+      style: { color: 'white' } // 根据需要设置颜色
     }),
     label: '订单',
     title: '订单',
@@ -146,7 +140,7 @@ const items = reactive([
         title: '购票中',
         icon: () => h(Icon, {
           icon: 'icon-park:ticket-one',
-          style: {color: 'white'} // 根据需要设置颜色
+          style: { color: 'white' } // 根据需要设置颜色
         }),
         onClick: () => router.push('/orders/pending')
       },
@@ -171,16 +165,16 @@ const items = reactive([
   },
 ]);
 watch(
-    () => state.openKeys,
-    (_val, oldVal) => {
-      state.preOpenKeys = oldVal;
-    },
+  () => state.openKeys,
+  (_val, oldVal) => {
+    state.preOpenKeys = oldVal;
+  },
 );
 watch(
-    () => userStore.userInfo,
-    (val, oldVal) => {
-      user.value = val;
-    },
+  () => userStore.userInfo,
+  (val, oldVal) => {
+    user.value = val;
+  },
 )
 const collapsed = ref<boolean>(false);
 
@@ -292,7 +286,7 @@ onMounted(() => {
 
 
 /* 去掉父菜单项的文本颜色高亮 */
-.ant-menu-submenu-selected > .ant-menu-submenu-title {
+.ant-menu-submenu-selected>.ant-menu-submenu-title {
   color: white !important;
 }
 

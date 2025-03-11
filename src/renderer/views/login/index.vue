@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold text-gray-800">手机验证码登录</h1>
       </div>
 
-      <a-form :model="form" @submit="handleSubmit" layout="vertical">
+      <a-form ref="formRef" :model="form" layout="vertical">
         <!-- 手机号码输入 -->
         <a-form-item label="手机号码" name="phone" :rules="[
         { required: true, message: '请输入手机号码' },
@@ -13,7 +13,7 @@
       ]">
           <a-input v-model:value="form.phone" placeholder="请输入手机号码" class="w-full" size="large">
             <template #prefix>
-              <mobile-outlined class="text-gray-400" />
+              <mobile-outlined class="text-gray-400"/>
             </template>
           </a-input>
         </a-form-item>
@@ -26,7 +26,7 @@
           <div class="flex gap-2">
             <a-input v-model:value="form.captcha" placeholder="请输入6位验证码" class="flex-1" size="large">
               <template #prefix>
-                <mail-outlined class="text-gray-400" />
+                <mail-outlined class="text-gray-400"/>
               </template>
             </a-input>
 
@@ -37,7 +37,8 @@
         </a-form-item>
 
         <!-- 登录按钮 -->
-        <a-button type="primary" html-type="submit" block size="large" :loading="loading" class="mt-4">
+        <a-button type="primary" html-type="submit" block size="large" :loading="loading" @click="handleSubmit"
+                  class="mt-4">
           立即登录
         </a-button>
       </a-form>
@@ -53,12 +54,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { MobileOutlined, MailOutlined } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
+import {ref, computed,} from 'vue';
+import {MobileOutlined, MailOutlined} from '@ant-design/icons-vue';
+import {message} from 'ant-design-vue';
 import axios from 'axios';
+import router from "../../router";
+import {useUserStore} from '../../stores/userStore';
 
-// 表单数据
+const userStore = useUserStore();
+
+const formRef = ref();
 const form = ref({
   phone: '',
   captcha: ''
@@ -80,7 +85,6 @@ const sendCaptcha = async () => {
     message.error('请输入正确的手机号码');
     return;
   }
-
   try {
     // 调用真实接口
     const response = await axios.post('/api/captcha', {
@@ -103,26 +107,47 @@ const sendCaptcha = async () => {
 };
 // 提交表单
 const handleSubmit = async () => {
+  formRef.value
+      .validate()
+      .then(() => {
+        handleLogin()
+      }).catch(error => {
+    console.error('Validation failed:', error);
+  });
+};
+const handleLogin = async () => {
   loading.value = true;
   try {
     const response = await axios.post('/api/login', {
       phone: form.value.phone,
       captcha: form.value.captcha
     });
-
-    if (response.data.success) {
+    console.log(response.data);
+    if (response.data.code === 200) {
       message.success('登录成功');
       // 跳转到主页
-      router.push('/dashboard');
+      getUserInfo()
+      router.push('/');
     } else {
-      message.error(response.data.message || '登录失败');
+      message.error(response.data.msg || '登录失败');
     }
   } catch (error) {
     message.error('请求异常，请检查网络');
   } finally {
     loading.value = false;
   }
-};
+}
+const getUserInfo = async () => {
+  try {
+    const response = await axios.post('/api/user/info');
+    if (response.data.code === 200) {
+      userStore.setUserInfo(response.data.data);
+    }
+  } catch (error) {
+    message.error('请求异常，请检查网络');
+  }
+}
+
 </script>
 
 <style scoped>

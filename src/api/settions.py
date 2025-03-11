@@ -31,8 +31,6 @@ class AppSettings:
         modules = [file.rstrip('.py')
                    for file in file_names if not file.startswith('__')]
         for m in modules:
-            if m != 'api':
-                continue
             imp = f"views.{mo}.api.{m}"
             router_module = importlib.import_module(imp)
             router = getattr(router_module, 'router')

@@ -5,9 +5,9 @@ from fastapi.routing import APIRouter
 from fastapi import *
 from fastapi.responses import HTMLResponse
 
-from utils.request.login import LoginClient
+from utils.request.login import RequestClient
 
-client = LoginClient()
+client = RequestClient()
 router = APIRouter(
     prefix="/api",
     tags=["登录"],

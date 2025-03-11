@@ -1,7 +1,7 @@
 <template>
     <div class="p-5 pb-15">
         <!-- 页面标题 -->
-        <div class="mb-6">
+        <div class="mb-1">
             <h2 class="font-bold text-2xl text-gray-800">订单管理</h2>
         </div>
 
@@ -25,7 +25,7 @@
 
         <!-- 订单列表 -->
         <div
-            class="p-5 grid gap-12 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 xs:grid-cols-1 h-[calc(100vh-300px)] overflow-y-auto scrollbar-hide rounded-2xl">
+            class="p-5 grid gap-12 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 xs:grid-cols-1 h-[calc(100vh-280px)] overflow-y-auto scrollbar-hide rounded-2xl">
             <div v-for="order in paginatedOrders" :key="order.id" :class="[
                 'relative h-64 w-72 p-4 rounded-lg transition-all duration-300',
                 'hover:scale-105 hover:shadow-2xl rounded-2xl',
@@ -93,9 +93,9 @@ const filterStatus = ref('all');
 // 筛选选项
 const filterOptions = [
     { value: 'all', label: '全部', icon: 'ri:list-unordered' },
-    { value: 'collecting', label: '采集中', icon: 'line-md:loading-twotone-loop' },
-    { value: 'completed', label: '采集完成', icon: 'mdi:sticker-check-outline' },
-    { value: 'error', label: '采集异常', icon: 'icon-park-outline:error' },
+    { value: 'collecting', label: '购票中', icon: 'line-md:loading-twotone-loop' },
+    { value: 'completed', label: '购票完成', icon: 'mdi:sticker-check-outline' },
+    { value: 'error', label: '购票异常', icon: 'icon-park-outline:error' },
 ];
 
 // 分页相关

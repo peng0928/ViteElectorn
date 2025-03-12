@@ -110,6 +110,23 @@ class RequestClient(AioHttpClient):
         }
         return query
 
+    @catch_exceptions_async
+    async def get_performs(self, request: object, _id):
+        cookie = self.get_token(request)
+        headers = self.headers.copy()
+        headers.update({
+            'authorization': f"Bearer {cookie}",
+        })
+        url = f"https://api.livelab.com.cn/performance/app/project/get_performs?project_id={_id}&standbyChannel=1"
+        response = await self.request.get(url, headers=headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or []
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+
 
 async def main():
     phone = "17732639704"

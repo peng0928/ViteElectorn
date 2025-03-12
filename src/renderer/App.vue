@@ -28,7 +28,7 @@
                   <a-menu class="w-75 line-clamp-2">
                     <div v-if="state.searchResults.length > 0">
                       <a-menu-item v-for="result in state.searchResults" :key="result.id">
-                        <div class="items-center text-xs  hover:shadow-lg ">{{ result.name }}</div>
+                        <div class="items-center text-xs  hover:shadow-lg" @click="rPush(result.projectId)">{{ result.name }}</div>
                       </a-menu-item>
                     </div>
                     <div v-else class="p-2 text-gray-500">
@@ -99,7 +99,9 @@ import {
 import router from './router';
 import { Icon } from '@iconify/vue';
 import { useUserStore } from './stores/userStore';
+import {useRouter} from 'vue-router';
 
+const route = useRouter()
 const userStore = useUserStore();
 const user = ref(userStore.userInfo);
 const state = reactive({
@@ -258,6 +260,9 @@ const logout = async () => {
   //   message.error('请求异常，请检查网络');
   // }
   message.success('退出成功');
+}
+const rPush = (id: any) => {
+  route.push({name: 'project', params: {params: id}});
 }
 onMounted(() => {
   getUserInfo();

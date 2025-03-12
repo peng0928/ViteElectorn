@@ -3,6 +3,7 @@ import Home from '../views/home.vue';
 import ticket from '../views/orders/tickets.vue';
 import login from '../views/login/index.vue';
 import pendingVue from '../views/orders/pending.vue';
+import projectVue from '../views/orders/project.vue';
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/orders/pending',
         name: 'pending',
         component: pendingVue,
+    },
+    {
+        path: '/project/:params',
+        name: 'project',
+        component: projectVue,
     }
 ];
 

@@ -5,7 +5,7 @@
         <div v-for="item in headShop" :key="item.id" class="rounded-2xl h-75 w-full">
           <div class="flex justify-center items-center rounded-2xl h-full">
             <img :src="encodeURIfunc(item.imgUrl)"
-              class="w-[90%] h-full rounded-2xl transition-transform hover:scale-103 duration-500" alt="">
+                 class="w-[90%] h-full rounded-2xl transition-transform hover:scale-103 duration-500" alt="">
           </div>
         </div>
       </a-carousel>
@@ -13,7 +13,7 @@
         <!-- 科技感骨架屏 -->
         <div class="h-full w-full animate-gradient-x">
           <a-skeleton active :paragraph="{ rows: 8 }" class="rounded-2xl bg-opacity-0">
-            <a-skeleton-image class="w-full h-full rounded-2xl bg-opacity-0" />
+            <a-skeleton-image class="w-full h-full rounded-2xl bg-opacity-0"/>
           </a-skeleton>
         </div>
       </div>
@@ -27,13 +27,15 @@
     <div>
       <div v-if="hotShop.length > 0">
         <div @mousemove="handleMouseMove" @mouseleave="stopAutoScroll" ref="scrollContainer"
-          @wheel.prevent="handleWheel" class="p-5 flex gap-5 w-full overflow-x-auto scrollbar-hide">
-          <div class="w-64 rounded-b-2xl transform duration-500 hover:-translate-y-2 shadow-xl" v-for="item in hotShop"
-            :key="item.id">
-            <div class="lg:w-45 sm:w-32  flex-shrink-0 hover:ring-3 hover:ring-black  rounded-2xl">
+             @wheel.prevent="handleWheel" class="p-5 flex gap-5 w-full overflow-x-auto scrollbar-hide">
+          <div class="cursor-pointer w-64 rounded-b-2xl transform duration-500 hover:-translate-y-2 shadow-xl"
+               v-for="item in hotShop"
+               :key="item.id">
+            <div class="lg:w-45 sm:w-32  flex-shrink-0 hover:ring-3 hover:ring-black  rounded-2xl"
+                 @click="rPush(item.projectId)">
               <div class="content bg-cover bg-center lg:h-64 sm:h-32 rounded-2xl">
                 <img :src="encodeURIfunc(item.posterUrl)" class="w-full lg:h-64 sm:h-32 rounded-2xl object-cover"
-                  alt="演唱会图片" />
+                     alt="演唱会图片"/>
               </div>
               <div class="px-4 pb-3">
                 <div class="mt-3 lg:text-md text-gray-700 line-clamp-2">{{ item.name }}</div>
@@ -47,7 +49,7 @@
         <!-- 科技感骨架屏 -->
         <div class="h-full w-full animate-gradient-x">
           <a-skeleton active :paragraph="{ rows: 8 }" class="rounded-2xl bg-opacity-0">
-            <a-skeleton-image class="w-full h-full rounded-2xl bg-opacity-0" />
+            <a-skeleton-image class="w-full h-full rounded-2xl bg-opacity-0"/>
           </a-skeleton>
         </div>
       </div>
@@ -56,10 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import {ref, onMounted, onUnmounted} from 'vue'
 import axios from 'axios';
-import { message } from 'ant-design-vue';
+import {message} from 'ant-design-vue';
+import {useRouter} from 'vue-router';
 
+const router = useRouter()
 const scrollContainer = ref<HTMLElement | null>(null)
 const autoScrollInterval = ref<number | null>(null)
 const scrollSpeed = ref(0)
@@ -141,10 +145,10 @@ const handleWheel = (e: WheelEvent) => {
   scrollContainer.value.scrollLeft += delta
 }
 const hotShop = ref(
-  []
+    []
 )
 const headShop = ref(
-  []
+    []
 )
 
 
@@ -169,9 +173,12 @@ const getheadShop = async () => {
   }
 }
 
-const encodeURIfunc = (url) => {
+const encodeURIfunc = (url: any) => {
   const res = encodeURI(url);
   return res;
+}
+const rPush = (id: any) => {
+  router.push({name: 'project', params: {params: id}});
 }
 </script>
 

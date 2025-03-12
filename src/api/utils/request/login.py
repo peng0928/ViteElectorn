@@ -54,6 +54,7 @@ class RequestClient(AioHttpClient):
             "data": json_dict,
         }
         return query
+
     @catch_exceptions_async
     async def app_ticket(self, request: object):
         cookie = self.get_token(request)
@@ -84,6 +85,19 @@ class RequestClient(AioHttpClient):
             "data": json_dict,
         }
         return query
+
+    @catch_exceptions_async
+    async def get_project(self, project_id):
+        url = f"https://api.livelab.com.cn/performance/app/project/get_project_info?project_id={project_id}"
+        response = await self.request.get(url, headers=self.headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or {}
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+
     @catch_exceptions_async
     async def headShop(self):
         url = "https://api.livelab.com.cn/appShow/app/homepage/banners?bannerModuleId=52"

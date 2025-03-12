@@ -73,7 +73,7 @@
             <div v-for="(performInfo, index) in performInfos.performInfo">
               <div class="mb-5" @click="getseatPlans(performInfo.id)">
                 <div
-                  :class="['relative', 'inline-flex', 'p-3', 'rounded-lg', 'ring-2', 'ring-orange-500', 'cursor-pointer', 'hover:bg-[#ffdfe0]', { 'bg-[#ffdfe0]': isActive({ n: 1, k: performInfo.id }) }]">
+                  :class="['relative', 'inline-flex', 'p-3', 'rounded-lg', 'ring-2', 'ring-orange-500', 'cursor-pointer', { 'bg-[#ffdfe0]': isActive({ n: 1, k: performInfo.id }) }]">
                   <div class="flex gap-1 text-red-6">
                     <div class="text-base font-bold">
                       {{ performInfo.name }}
@@ -99,7 +99,7 @@
           <div v-for="performInfo in seatPlans" :key="performInfo.id"
             :class="{ 'col-span-full': performInfo.display === 3 && performInfo.type === 3 }">
             <div
-              :class="['relative', 'inline-flex', 'p-3', 'rounded-lg', 'ring-2', 'ring-orange-500', 'cursor-pointer', 'hover:bg-[#ffdfe0]', { 'bg-[#ffdfe0]': isActive({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId }) }]"
+              :class="['relative', 'inline-flex', 'p-3', 'rounded-lg', 'ring-2', 'ring-orange-500', 'cursor-pointer', { 'bg-[#ffdfe0]': isActive({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId }) }]"
               @click="toggleBackground({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId })">
               <div class="flex gap-1 text-red-600">
                 <div class="text-base font-bold">

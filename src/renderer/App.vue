@@ -28,7 +28,8 @@
                   <a-menu class="w-75 line-clamp-2">
                     <div v-if="state.searchResults.length > 0">
                       <a-menu-item v-for="result in state.searchResults" :key="result.id">
-                        <div class="items-center text-xs  hover:shadow-lg" @click="rPush(result.projectId)">{{ result.name }}</div>
+                        <div class="items-center text-xs  hover:shadow-lg" @click="rPush(result.projectId)">{{
+        result.name }}</div>
                       </a-menu-item>
                     </div>
                     <div v-else class="p-2 text-gray-500">
@@ -37,7 +38,7 @@
                   </a-menu>
                 </template>
               </a-dropdown>
-              <div v-if="!user.nickname" class="flex items-center">
+              <div v-if="!user.nickname && !user.memberId" class="flex items-center">
                 <a-button type="text" @click="router.push('/login')">
                   <div class="flex items-center gap-2 text-base">
                     <icon icon="ooui:log-in-ltr" class="align-middle" />
@@ -50,7 +51,7 @@
                   <a-button type="text" class="h-full">
                     <div class="flex items-center justify-center gap-1 font-bold">
                       <icon icon="material-symbols:person-pin" class="align-middle" />
-                      <div class="align-middle">{{ user.nickname }}</div>
+                      <div class="align-middle">{{ user.nickname || user.memberAuthInfoVo.realNameNonSensitive }}</div>
                     </div>
                   </a-button>
                   <template #overlay>
@@ -99,7 +100,7 @@ import {
 import router from './router';
 import { Icon } from '@iconify/vue';
 import { useUserStore } from './stores/userStore';
-import {useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const route = useRouter()
 const userStore = useUserStore();
@@ -262,7 +263,7 @@ const logout = async () => {
   message.success('退出成功');
 }
 const rPush = (id: any) => {
-  route.push({name: 'project', params: {params: id}});
+  route.push({ name: 'project', params: { params: id } });
 }
 onMounted(() => {
   getUserInfo();

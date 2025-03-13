@@ -45,8 +45,7 @@
                     </div>
                 </div>
 
-                <!-- 状态标签 -->
-                <div class="absolute bottom-4 right-4">
+                <div class="absolute bottom-10 right-4">
                     <a-tag :color="getStatusColor(order.status)">
                         <template #icon>
                             <div class="flex items-center align-middle">
@@ -54,6 +53,12 @@
                                 {{ order.status }}
                             </div>
                         </template>
+                    </a-tag>
+                </div>
+                <!-- 状态标签 -->
+                <div class="absolute bottom-4 right-4">
+                    <a-tag :color="getStatusColor(order.status)">
+                       2025-03-13 20:08
                     </a-tag>
                 </div>
             </div>

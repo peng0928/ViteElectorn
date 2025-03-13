@@ -127,6 +127,23 @@ class RequestClient(AioHttpClient):
         }
         return query
 
+    @catch_exceptions_async
+    async def get_member(self, request: object):
+        cookie = self.get_token(request)
+        headers = self.headers.copy()
+        headers.update({
+            'authorization': f"Bearer {cookie}",
+        })
+        url = "https://api.livelab.com.cn/member/member/bearer/app/list"
+        response = await self.request.get(url, headers=headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or []
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+
 
 async def main():
     phone = "17732639704"

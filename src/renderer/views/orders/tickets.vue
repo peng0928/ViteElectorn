@@ -68,8 +68,11 @@
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
 import axios from 'axios';
-import { e } from 'unocss/index';
 import { reactive, watch, h, ref, onUnmounted, onMounted } from 'vue';
+import { useUserStore } from '../../stores/userStore';
+
+const userStore = useUserStore();
+
 const ticketShop = ref(
   []
 )
@@ -82,6 +85,7 @@ const getTicket = async () => {
     }
     else {
       message.error(response.data.msg);
+      userStore.clearUserInfo();
     }
   } catch (error) {
     message.error('请求异常，请检查网络');

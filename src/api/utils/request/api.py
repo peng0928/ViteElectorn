@@ -75,7 +75,7 @@ class RequestClient(AioHttpClient):
 
     @catch_exceptions_async
     async def hotShop(self):
-        url = "https://api.livelab.com.cn/appShow/app/homepage/projects?projectModuleId=81&pageNum=1&pageSize=100&v="
+        url = "https://api.livelab.com.cn/appShow/app/homepage/projects?projectModuleId=81&pageNum=1&pageSize=15&v="
         response = await self.request.get(url, headers=self.headers)
         json_data = await response.json()
         json_dict = json_data.get("data") or {}

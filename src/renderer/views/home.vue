@@ -2,10 +2,11 @@
   <div class="pb-10">
     <div>
       <a-carousel autoplay v-if="headShop.length > 0">
-        <div v-for="item in headShop" :key="item.id" class="rounded-2xl h-75 w-full">
+        <div v-for="item in headShop" :key="item.id" class="rounded-2xl h-65 w-full">
           <div class="flex justify-center items-center rounded-2xl h-full">
             <img :src="encodeURIfunc(item.imgUrl)"
-                 class="w-[90%] h-full rounded-2xl transition-transform hover:scale-103 duration-500" alt="">
+                  loading="lazy"
+                 class="w-[90%] h-full rounded-2xl transition-transform hover:scale-103 duration-500 cursor-pointer" alt="">
           </div>
         </div>
       </a-carousel>
@@ -35,7 +36,7 @@
                  @click="rPush(item.projectId)">
               <div class="content bg-cover bg-center lg:h-64 sm:h-32 rounded-2xl">
                 <img :src="encodeURIfunc(item.posterUrl)" class="w-full lg:h-64 sm:h-32 rounded-2xl object-cover"
-                     alt="演唱会图片"/>
+                     alt="演唱会图片" loading="lazy" />
               </div>
               <div class="px-4 pb-3">
                 <div class="mt-3 lg:text-md text-gray-700 line-clamp-2">{{ item.name }}</div>

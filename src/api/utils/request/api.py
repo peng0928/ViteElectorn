@@ -1,5 +1,6 @@
 import asyncio
 from .modal.aio import *
+from .modal.msg import *
 
 
 class RequestClient(AioHttpClient):
@@ -140,6 +141,65 @@ class RequestClient(AioHttpClient):
         json_dict = json_data.get("data") or []
         query = {
             "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+
+    @catch_exceptions_async
+    async def get_orders(self, request: object, pageNum=1, pageSize=5, type=0):
+        """
+        :param request:
+        :param pageNum:
+        :param pageSize:
+        :param type: 0 全部 1 待支付 2 取消
+        :return:
+        """
+        cookie = self.get_token(request)
+        headers = self.headers.copy()
+        headers.update({
+            'authorization': f"Bearer {cookie}",
+        })
+        url = f"https://api.livelab.com.cn/performance/app/order/list?type={type}&pageNum={pageNum}&pageSize={pageSize}"
+        response = await self.request.get(url, headers=headers)
+        json_data = await response.json()
+        json_dict = json_data.get("data") or []
+        query = {
+            "msg": json_data.get("msg"),
+            "data": json_dict,
+        }
+        return query
+
+    @catch_exceptions_async
+    async def order_create(self, request: object, item: dict = {}):
+        name = item.get("name") or ""
+        phnoe = item.get("phnoe") or ""
+        deliveryType = item.get("deliveryType") or ""
+        projectId = item.get("projectId") or ""
+        performId = item.get("performId") or ""
+        audienceCount = item.get("audienceCount") or ""
+        frequentIds = item.get("frequentIds") or ""
+        seatPlanIds = item.get("seatPlanIds") or ""
+        cookie = self.get_token(request)
+        headers = self.headers_json.copy()
+        headers.update({
+            'authorization': f"Bearer {cookie}",
+        })
+        url = "https://api.livelab.com.cn/order/app/center/v3/create"
+        payload = {"contactName": name, "contactPhone": phnoe, "deliveryName": name,
+                   "deliveryPhone": phnoe, "expressFee": 0.0, "deliveryAddress": "", "addressId": None,
+                   "deliveryType": deliveryType, "projectId": projectId, "performId": performId, "totalPrice": "0.00",
+                   "payment": "0.00", "ordinaryTicketVos": None, "combineTicketVos": None, "blackBox": ":1",
+                   "buyerId": None, "audienceCount": audienceCount, "frequentIds": frequentIds,
+                   "seatPlanIds": seatPlanIds}
+        response = await self.request.post(url, headers=headers, json=payload)
+        json_data = await response.json()
+        msg = json_data.get("msg")
+        json_dict = json_data.get("data") or []
+        code = json_data.get("code") or 10000
+        if code != 10000:
+            msg = code_msg.get(code) or msg
+        query = {
+            "msg": msg,
             "data": json_dict,
         }
         return query

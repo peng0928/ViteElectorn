@@ -56,11 +56,41 @@ async def get_performs(request: Request, item: dict):
         return response
     else:
         return JSONResponse(status_code=200, content={"status": False, "msg": msg, "code": 300, "data": result})
+
+
 @router.post("/member")
 @token_required
 async def get_member(request: Request, item: dict):
     async with RequestClient() as c:
         data = await c.get_member(request)
+    msg = data.get("msg")
+    result = data.get("data")
+    if msg == "操作成功":
+        response = JSONResponse(status_code=200, content={"status": True, "msg": msg, "code": 200, "data": result})
+        return response
+    else:
+        return JSONResponse(status_code=200, content={"status": False, "msg": msg, "code": 300, "data": result})
+
+
+@router.post("/order/create")
+@token_required
+async def create_order(request: Request, item: dict):
+    async with RequestClient() as c:
+        data = await c.order_create(request, item)
+    msg = data.get("msg")
+    result = data.get("data")
+    if msg == "操作成功":
+        response = JSONResponse(status_code=200, content={"status": True, "msg": msg, "code": 200, "data": result})
+        return response
+    else:
+        return JSONResponse(status_code=200, content={"status": False, "msg": msg, "code": 300, "data": result})
+
+
+@router.post("/orders")
+@token_required
+async def orders(request: Request, item: dict):
+    async with RequestClient() as c:
+        data = await c.get_orders(request, **item)
     msg = data.get("msg")
     result = data.get("data")
     if msg == "操作成功":

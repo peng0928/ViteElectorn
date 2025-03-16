@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div class="fixed w-full">
-      <icon icon="ion:md-arrow-round-back" class="text-4xl cursor-pointer" @click="goBack()"/>
+      <icon icon="ion:md-arrow-round-back" class="text-4xl cursor-pointer" @click="goBack()" />
     </div>
   </div>
   <div class="rounded-2xl mx-auto w-[85%] pb-10">
@@ -11,7 +11,7 @@
           <!-- 演出海报 -->
           <div class="relative overflow-hidden rounded-lg shadow-2xl w-1/4 min-w-64 max-w-75">
             <img :src="concert.poster" alt=""
-                 class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"/>
+              class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500" />
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
             <div class="absolute bottom-8 left-6 w-[80%] transform duration-500 hover:-translate-y-2">
               <h1 class="text-md font-bold text-white line-clamp-2">{{ concert.projectName }}</h1>
@@ -39,9 +39,9 @@
                 </div>
                 <div class="flex gap-3 mt-3">
                   <div v-for="item in concert.projectServices"
-                       class="text-black font-light flex items-center justify-center">
+                    class="text-black font-light flex items-center justify-center">
                     <div>
-                      <icon :icon=" item.type===1 ? 'material-symbols:check-circle-outline' :'codicon:error'"></icon>
+                      <icon :icon="item.type === 1 ? 'material-symbols:check-circle-outline' : 'codicon:error'"></icon>
                     </div>
                     <div>{{ item.title }}</div>
                   </div>
@@ -51,11 +51,11 @@
             <!-- 在线购票按钮 -->
             <div class="flex gap-3 mt-auto">
               <div
-                  class="w-full bg-gradient-to-r from-yellow-500 to-blue-600 text-white font-bold py-3 rounded-lg shadow-lg text-center">
+                class="w-full bg-gradient-to-r from-yellow-500 to-blue-600 text-white font-bold py-3 rounded-lg shadow-lg text-center">
                 {{ concert.saleStartTime ? concert.saleStartTime : "抢先看" }}
               </div>
               <div @click="showModal"
-                   class="hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-red-500 to-blue-600 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
+                class="hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-red-500 to-blue-600 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
                 立即购票
               </div>
             </div>
@@ -81,17 +81,15 @@
             <div v-for="(performInfo, index) in performInfos.performInfo">
               <div class="">
                 <div class="inline-flex space-x-2">
-                  <div
-                      v-for="item in performInfo.tags"
-                      class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full shadow-md"
-                  >
+                  <div v-for="item in performInfo.tags"
+                    class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full shadow-md">
                     <div>{{ item.tag }}</div>
                   </div>
                 </div>
               </div>
               <div class="mb-5" @click="getseatPlans(performInfo.id)">
                 <div
-                    :class="['relative', 'inline-flex', 'p-3', 'rounded-lg', 'ring-2', 'ring-orange-500', 'cursor-pointer', { 'bg-[#ffdfe0]': isActive({ n: 1, k: performInfo.id }) }]">
+                  :class="['relative', 'inline-flex', 'p-3', 'rounded-lg', 'ring-2', 'ring-orange-500', 'cursor-pointer', { 'bg-[#ffdfe0]': isActive({ n: 1, k: performInfo.id }) }]">
                   <div class="flex gap-1 text-red-6">
                     <div class="text-base font-bold">
                       {{ performInfo.name }}
@@ -102,6 +100,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -109,14 +108,13 @@
       <div class="text-2xl font-bold">选择票品</div>
       <div class="p-3">
         <div class="flex flex-wrap gap-6 text-nowrap">
-          <div v-for="performInfo in seatPlans" :key="performInfo.id"
-               class="flex gap-2">
+          <div v-for="performInfo in seatPlans" :key="performInfo.id" class="flex gap-2">
             <div v-if="isIndex(performInfo.seatPlanId)" class="flex p-2">
               <div class="flex items-center justify-center">
                 <div class="relative items-center justify-center w-5 h-full">
                   <img
-                      :src="'/public/' + (isIndex(performInfo.seatPlanId) > 4 ? 4 : isIndex(performInfo.seatPlanId)) + '.svg'"
-                      alt="状态图标" class="w-full h-full flex items-center justify-center object-cover rounded-t-md"/>
+                    :src="'/public/' + (isIndex(performInfo.seatPlanId) > 4 ? 4 : isIndex(performInfo.seatPlanId)) + '.svg'"
+                    alt="状态图标" class="w-full h-full flex items-center justify-center object-cover rounded-t-md" />
                   <div class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-medium">
                     {{ isIndex(performInfo.seatPlanId) }}
                   </div>
@@ -124,15 +122,15 @@
               </div>
             </div>
             <div :class="['inline-flex', 'p-3', 'rounded-lg', 'ring-2', ' ring-orange-500', 'cursor-pointer', {
-        'bg-[#ffdfe0] ring-orange-6': isActive({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId }),
-      }]" @click="toggleBackground({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId })">
+              'bg-[#ffdfe0] ring-orange-6': isActive({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId }),
+            }]" @click="toggleBackground({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId })">
               <div class="flex gap-3 text-red-600 items-center justify-center">
                 <div class="text-base font-bold">
                   {{ performInfo.seatPlanName }}
                 </div>
 
-                <div class="text-xs ring-1 ring-orange-6 rounded-lg">
-                  <div class="p-1">缺票登记</div>
+                <div class="text-xs ring-1 ring-orange-6 rounded-lg" v-if="get_tags(performInfo.tags)">
+                  <div class="p-1">{{ get_tags(performInfo.tags) }}</div>
                 </div>
               </div>
             </div>
@@ -149,16 +147,15 @@
             <div>
               <a-button type="text" shape="circle" :disabled="quantity <= 1" @click="decrease">
                 <template #icon>
-                  <MinusCircleFilled/>
+                  <MinusCircleFilled />
                 </template>
               </a-button>
             </div>
             <div class="font-bold text-lg">{{ quantity }}</div>
             <div>
-              <a-button type="text" shape="circle" @click="increase"
-                        :disabled="quantity >= data.purchaseLimitationOnce">
+              <a-button type="text" shape="circle" @click="increase" :disabled="quantity >= data.purchaseLimitationOnce">
                 <template #icon>
-                  <PlusCircleFilled/>
+                  <PlusCircleFilled />
                 </template>
               </a-button>
             </div>
@@ -166,12 +163,12 @@
         </div>
       </div>
       <div @click="getMember"
-           class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-yellow-400 to-blue-500 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
+        class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-yellow-400 to-blue-500 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
         下一步
       </div>
     </div>
     <div v-else>
-      <icon icon="ion:md-arrow-round-back" class="text-4xl cursor-pointer" @click="step = 1"/>
+      <icon icon="ion:md-arrow-round-back" class="text-4xl cursor-pointer" @click="step = 1" />
       <div class="text-2xl font-bold">实名持票人</div>
       <div class="text-md font-bold text-gray-6">需要选择{{ quantity }}位: 入场需要携带相关证件</div>
       <div class="p-3 grid gap-5">
@@ -182,19 +179,21 @@
               <div class="text-sm font-bold text-gray-6">{{ item.idCard }}</div>
             </div>
             <div class="ml-auto">
-              <a-checkbox @click="checkChange(item.idCard)" :checked="checked === item.idCard"></a-checkbox>
+              <a-checkbox @click="checkChange(item.frequentContactsId)"
+                :checked="memberChecked.includes(item.frequentContactsId)"></a-checkbox>
             </div>
           </div>
         </div>
       </div>
+      <a-progress :percent="percent" :status="status" v-if="percent > 0" />
       <div>
         <div class="flex gap-5">
-          <div @click="getMember"
-               class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-yellow-5 to-blue-6 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
+          <div @click="orderCreate"
+            class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-yellow-5 to-blue-6 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
             预约抢票
           </div>
-          <div @click="getMember"
-               class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-red-5 to-blue-6 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
+          <div @click="orderCreate"
+            class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-red-5 to-blue-6 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
             立即购买
           </div>
         </div>
@@ -204,28 +203,51 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted, computed} from 'vue';
-import {useRoute, useRouter, onBeforeRouteUpdate} from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import axios from "axios";
-import {message} from "ant-design-vue";
-import {Icon} from "@iconify/vue";
-import {PlusCircleFilled, MinusCircleFilled} from '@ant-design/icons-vue';
-
+import { message } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
+import { PlusCircleFilled, MinusCircleFilled } from '@ant-design/icons-vue';
+import { useUserStore } from '../../stores/userStore';
+const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 const params = ref(route.params.params);
-const concert = ref({venueInfo: {}});
+const concert = ref({ venueInfo: {} });
 const isH = ref('max-h-50');
 const isExpanded = ref(false);
 const isOverflowing = ref(true);
 const open = ref<boolean>(false);
-const checked = ref();
+const memberChecked = ref([]);
 const step = ref(1);
-const options = [
-  {label: 'Apple', value: 'Apple'},
-  {label: 'Pear', value: 'Pear'},
-  {label: 'Orange', value: 'Orange'},
-];
+const seatPlans = ref([])
+const member = ref([])
+const activeIndexes = ref<any[]>([]);
+const data = ref({
+  performInfos: []
+})
+const quantity = ref(1); //购票数量
+const percent = ref(0);
+const isRunning = ref(false);
+const status = ref<'active' | 'success' | 'exception'>('active');
+const startProgress = () => {
+  if (isRunning.value) return;
+
+  isRunning.value = true;
+  percent.value = 0;
+  status.value = 'active';
+  const getRandomIncrement = () => Math.floor(Math.random() * 10) + 1;
+  const interval = setInterval(() => {
+    const increment = getRandomIncrement()
+    if (percent.value < 90) {
+      percent.value += increment;
+    } else {
+      clearInterval(interval!);
+      isRunning.value = false;
+    }
+  }, 100);
+};
 
 const handleOk = (e: MouseEvent) => {
   open.value = false;
@@ -241,16 +263,9 @@ const toggleExpand = () => {
 const goBack = () => {
   router.back(); // 返回上一个路由
 };
-const data = ref({
-  performInfos: []
-})
-const seatPlans = ref([])
-const member = ref([])
-const activeIndexes = ref<any[]>([]);
-
 
 const getseatPlans = (id: any) => {
-  const res = {n: 1, k: id}
+  const res = { n: 1, k: id }
   if (isActive(res)) {
     // 如果已经激活，则取消激活
     activeIndexes.value = activeIndexes.value.filter((i) => JSON.stringify(i) !== JSON.stringify(res));
@@ -281,6 +296,7 @@ const handleConfirm = () => {
 }
 
 const showModal = () => {
+  percent.value = 0;
   getperforms()
 };
 
@@ -308,8 +324,8 @@ const getperforms = async () => {
 
 const isActive = (index: any) => {
   const hasObject = activeIndexes.value.some(item =>
-      Object.keys(item).length === Object.keys(index).length &&
-      Object.keys(item).every(key => item[key] === index[key])
+    Object.keys(item).length === Object.keys(index).length &&
+    Object.keys(item).every(key => item[key] === index[key])
   );
   return hasObject;
 };
@@ -328,7 +344,6 @@ const toggleBackground = (index: any) => {
   console.log(activeIndexes.value);
 };
 
-const quantity = ref(1);
 
 const increase = () => {
   quantity.value += 1;
@@ -360,8 +375,8 @@ const checkSeat = () => {
 }
 
 const getProject = async () => {
-  concert.value = {venueInfo: {}};
-  await makeRequest('/api/project', concert, {id: params.value});
+  concert.value = { venueInfo: {} };
+  await makeRequest('/api/project', concert, { id: params.value });
 }
 
 const getMember = async () => {
@@ -377,13 +392,85 @@ const makeRequest = async (url: string, object: any, data: any = {}) => {
       message.error(response.data.msg);
     }
   } catch
-      (error) {
+  (error) {
     message.error('请求异常，请检查网络');
   }
 }
-const checkChange = (idCard: string) => {
-  checked.value = idCard; // 选中当前项
+const checkChange = (idCard: any) => {
+  if (memberChecked.value.includes(idCard)) {
+    memberChecked.value = memberChecked.value.filter(item => item !== idCard);
+  }
+  else {
+    if (quantity.value > memberChecked.value.length) {
+      memberChecked.value.push(idCard)
+    }
+  }
+  console.log(memberChecked.value);
+
 };
+const get_tags = (tags: any) => {
+  let result = false
+  tags.some(tag => {
+    console.log(tag);
+    if (tag.type === 4) {
+      result = "缺票登记"
+    }
+  })
+  return result;
+}
+
+const ticketInfo = () => {
+  const kValue = activeIndexes.value.find(item => item.n === 1)?.k;
+
+  const idArray = activeIndexes.value
+    .filter(item => item.n === 2)
+    .map(item => item.id);
+
+  return {
+    k: kValue,
+    ids: idArray
+  };
+}
+const orderCreate = async () => {
+  if (memberChecked.value.length === 0) {
+    message.warning("请选择实名持票人")
+    return
+  }
+  if (memberChecked.value.length != quantity.value) {
+    message.warning(`请选择${quantity.value}个实名持票人`)
+    return
+  }
+  const tinfo = ticketInfo();
+  const item = concert.value;
+  const userInfo = userStore.userInfo
+
+  const query = {
+    name: userInfo.memberAuthInfoVo.realNameNonSensitive,
+    phnoe: userInfo.realPhone,
+    deliveryType: item.deliveryType,
+    projectId: item.projectId,
+    performId: tinfo.k,
+    audienceCount: quantity.value,
+    frequentIds: memberChecked.value,
+    seatPlanIds: tinfo.ids,
+  }
+  startProgress()
+  try {
+    const response = await axios.post('/api/order/create', { ...query });
+    if (response.data.code === 200) {
+      percent.value = 100;
+      status.value = 'success'
+      message.success('成功');
+    } else {
+      percent.value = 100;
+      status.value = 'exception'
+      message.error(response.data.msg);
+    }
+  } catch
+  (error) {
+    message.error('请求异常，请检查网络');
+  }
+}
 onMounted(() => {
   getProject();
 })

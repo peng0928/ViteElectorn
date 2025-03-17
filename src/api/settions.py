@@ -3,7 +3,7 @@ import importlib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from utils.client.redis import lifespan
+from utils.client.lifeApp import lifespan
 
 basedir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/api'
 default_path = os.path.join(basedir)

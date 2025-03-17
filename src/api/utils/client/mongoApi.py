@@ -44,13 +44,10 @@ class Log():
             MonLog.exception(msg)
 
 
-
-
-
 class MongoConn:
-    def __init__(self, host='192.168.15.100', port=27017, db='MongoTest', log=True):
-        self.myclient = pymongo.MongoClient('127.0.0.1', port=port)
-        self.mydb = self.myclient[db]
+    def __init__(self, env, log=True):
+        self.myclient = pymongo.MongoClient(env['host'], port=env['port'])
+        self.mydb = self.myclient[env['db']]
         self.Mlog = Log(log=log)
         self.Mlog.success('Mongodb连接成功')
 
@@ -205,6 +202,9 @@ class MongoConn:
         mycol = self.mydb[collection]
         for index, document in enumerate(mycol.find(batch_size=1000)):
             print(index)
+
+    def close(self, ):
+        self.myclient.close()
 
 
 def months_precise(date_str1, date_str2, date_format="%Y-%m-%d"):

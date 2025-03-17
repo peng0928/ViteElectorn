@@ -5,6 +5,7 @@ from fastapi.routing import APIRouter
 from fastapi import *
 from fastapi.responses import HTMLResponse
 
+from settions import app
 from utils.request.api import RequestClient
 from utils.wapper.index import token_required
 
@@ -22,6 +23,7 @@ async def app_info(request: Request):
     msg = data.get("msg")
     result = data.get("data")
     if msg == "操作成功":
+        app.state.mongo.insert('user', data)
         response = JSONResponse(status_code=200, content={"status": True, "msg": msg, "code": 200, "data": result})
         return response
     else:

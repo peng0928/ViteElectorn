@@ -42,8 +42,9 @@
           <div class="absolute top-[81%] -right-2 w-4 h-4 bg-[#f5f5f5] -translate-y-1/2 rounded-2xl"></div>
 
           <!-- 状态图标 -->
-          <div class="absolute top-[75%] w-4 h-4 right-15 -translate-y-1/2 rounded-2xl">
-            <img src="/utils/img/end.svg" alt="状态图标" />
+          <div class="absolute top-[73%] w-4 h-4 right-15 -translate-y-1/2 rounded-2xl">
+            <img src="/utils/img/end.svg" alt="状态图标" v-if="isDateGreaterThanToday(item.performStartTime)" />
+            <img src="/utils/img/qd.svg" alt="状态图标" v-else />
           </div>
 
           <!-- 底部提示 -->
@@ -91,6 +92,15 @@ const getTicket = async () => {
     message.error('请求异常，请检查网络');
   }
 }
+const isDateGreaterThanToday = (dateString: string) => {
+  const standardizedDateString = dateString.replace(/\//g, '-');
+  const inputDate = new Date(standardizedDateString);
+  // 获取当前时间
+  const today = new Date();
+  // 比较日期
+  return inputDate < today;
+}
+
 onMounted(() => {
   getTicket()
 })

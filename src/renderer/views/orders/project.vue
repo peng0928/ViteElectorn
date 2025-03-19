@@ -122,8 +122,9 @@
               </div>
             </div>
             <div :class="['inline-flex', 'p-3', 'rounded-lg', 'ring-2', ' ring-orange-500', 'cursor-pointer', {
-              'bg-[#ffdfe0] ring-orange-6': isActive({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId }),
-            }]" @click="toggleBackground({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId })">
+              'bg-[#ffdfe0] ring-orange-6': isActive({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId, name: performInfo.seatPlanName }),
+            }]"
+              @click="toggleBackground({ n: 2, id: performInfo.seatPlanId, pid: performInfo.performId, name: performInfo.seatPlanName })">
               <div class="flex gap-3 text-red-600 items-center justify-center">
                 <div class="text-base font-bold">
                   {{ performInfo.seatPlanName }}
@@ -188,7 +189,7 @@
       <a-progress :percent="percent" :status="status" v-if="percent > 0" />
       <div>
         <div class="flex gap-5">
-          <div @click="orderCreate"
+          <div @click="orderCreate(true)"
             class="mt-3 hover:ring-2 hover:ring-black w-full bg-gradient-to-r from-yellow-5 to-blue-6 cursor-pointer  text-white font-bold py-3 rounded-lg shadow-lg text-center">
             预约抢票
           </div>
@@ -341,7 +342,6 @@ const toggleBackground = (index: any) => {
   } else {
     activeIndexes.value.push(index);
   }
-  console.log(activeIndexes.value);
 };
 
 
@@ -405,13 +405,11 @@ const checkChange = (idCard: any) => {
       memberChecked.value.push(idCard)
     }
   }
-  console.log(memberChecked.value);
 
 };
 const get_tags = (tags: any) => {
   let result = false
   tags.some(tag => {
-    console.log(tag);
     if (tag.type === 4) {
       result = "缺票登记"
     }
@@ -431,7 +429,7 @@ const ticketInfo = () => {
     ids: idArray
   };
 }
-const orderCreate = async () => {
+const orderCreate = async (task = false) => {
   if (memberChecked.value.length === 0) {
     message.warning("请选择实名持票人")
     return
@@ -454,23 +452,49 @@ const orderCreate = async () => {
     frequentIds: memberChecked.value,
     seatPlanIds: tinfo.ids,
   }
-  startProgress()
-  try {
-    const response = await axios.post('/api/order/create', { ...query });
-    if (response.data.code === 200) {
-      percent.value = 100;
-      status.value = 'success'
-      message.success('成功');
-    } else {
-      percent.value = 100;
-      status.value = 'exception'
-      message.error(response.data.msg);
+  if (task === true) {
+    const seatInfo = activeIndexes.value
+      .filter(item => item.n === 2) // 筛选出 n 为 2 的对象
+      .map(item => item.name)
+    const ticketInfo = {
+      poster: concert.value.poster,
+      name: concert.value.projectName,
+      startDate: concert.value.projectStartDate,
+      seat: seatInfo
     }
-  } catch
-  (error) {
-    message.error('请求异常，请检查网络');
+
+    try {
+      const response = await axios.post('/api/task', { data: query, ...ticketInfo });
+      if (response.data.code === 200) {
+        message.success('成功');
+      } else {
+        message.error(response.data.msg);
+      }
+    } catch
+    (error) {
+      message.error('请求异常，请检查网络');
+    }
+  }
+  else {
+    startProgress()
+    try {
+      const response = await axios.post('/api/order/create', { ...query });
+      if (response.data.code === 200) {
+        percent.value = 100;
+        status.value = 'success'
+        message.success('成功');
+      } else {
+        percent.value = 100;
+        status.value = 'exception'
+        message.error(response.data.msg);
+      }
+    } catch
+    (error) {
+      message.error('请求异常，请检查网络');
+    }
   }
 }
+
 onMounted(() => {
   getProject();
 })

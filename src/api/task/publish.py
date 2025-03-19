@@ -6,7 +6,7 @@ async def publish_message():
     redis = aioredis.Redis.from_url("redis://localhost")
 
     # 发布停止信号
-    await redis.publish('topic2', 'stop')
+    await redis.publish('', 'stop')
     print("Published: stop signal")
 
     await redis.close()

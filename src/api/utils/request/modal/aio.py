@@ -55,7 +55,10 @@ class AioHttpClient:
 
 
     def get_token(self, request: object):
-        cookie = request.cookies or {}
+        if isinstance(request, dict):
+            cookie = request or {}
+        else:
+            cookie = request.cookies or {}
         token = cookie.get("t") or ""
         return token
 

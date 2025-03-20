@@ -15,7 +15,7 @@ dev_mongo = dev['mongo']
 async def lifespan(app: FastAPI):
     session = await init_redis_pool()  #
     app.state.redis = session
-    app.state.mongo = MongoConn(dev_mongo)
+    app.state.mongo = MongoConn(dev_mongo, False)
     yield
     await session.close()
     app.state.mongo.close()

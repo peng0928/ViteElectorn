@@ -460,7 +460,8 @@ const orderCreate = async (task = false) => {
       poster: concert.value.poster,
       name: concert.value.projectName,
       startDate: concert.value.projectStartDate,
-      seat: seatInfo
+      seat: seatInfo,
+      uid: userInfo.uid
     }
 
     try {

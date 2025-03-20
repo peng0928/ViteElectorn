@@ -13,3 +13,17 @@ class AppSettings:
             "log": True,
         },
     }
+
+
+class MongoConfig:
+    fwd_task = "Fwd-tasks"
+    fwd_task_log = "Fwd-tasks-logs"
+
+
+class RedisConfig:
+    fwd_task = "tasks:fwd"
+
+
+class DBConfig:
+    mongo = MongoConfig()
+    redis = RedisConfig()

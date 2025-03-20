@@ -206,6 +206,33 @@ class MongoConn:
     def close(self, ):
         self.myclient.close()
 
+    def find_with_pagination(self, collection_name, query={}, page=1, page_size=10):
+        """
+        分页查询函数
+
+        :param collection_name: 集合名称
+        :param query: 查询条件，默认为空字典
+        :param page: 当前页码，默认为1
+        :param page_size: 每页显示的文档数量，默认为10
+        :return: 查询结果列表
+        """
+        collection = self.mydb[collection_name]
+        # 计算跳过的文档数量
+        skip_amount = (page - 1) * page_size
+        # 获取总文档数
+        total = collection.count_documents(query)
+        # 执行分页查询
+        cursor = collection.find(query, {'_id': 0}).skip(skip_amount).limit(page_size)
+        # 将查询结果转换为列表
+        results = list(cursor)
+        # 返回分页信息和查询结果
+        return {
+            'pageNum': page,
+            'pageSize': page_size,
+            'total': total,
+            'data': results
+        }
+
 
 def months_precise(date_str1, date_str2, date_format="%Y-%m-%d"):
     date1 = datetime.datetime.strptime(date_str1, date_format)

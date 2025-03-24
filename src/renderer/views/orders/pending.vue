@@ -24,9 +24,9 @@
         </div>
 
         <div
-            class="p-5 grid gap-5 flex flex-wrap  inline-flex cursor-pointer overflow-y-auto scrollbar-hide rounded-2xl max-h-[calc(100vh-260px)]">
+            class="p-5 grid gap-15 flex flex-wrap  inline-flex cursor-pointer overflow-y-auto scrollbar-hide rounded-2xl max-h-[calc(100vh-260px)]">
             <div v-for="(order, index) in paginatedOrders" :key="order.id" :class="[
-                'relative h-96 w-130 p-5 rounded-lg transition-all duration-300',
+                'relative h-76 w-120 p-5 rounded-lg transition-all duration-300',
                 ' hover:scale-101 hover:shadow-2xl rounded-2xl',
                 getCardBackground(order.spider_status),
             ]">
@@ -163,15 +163,15 @@ const getStatusIcon = (status: any) => {
 const getCardBackground = (status: any) => {
     switch (status) {
         case 1:
-            return 'bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-700/20 hover:to-purple-700/20';
+            return 'bg-gradient-to-r from-blue-3 to-purple-3 hover:from-blue-4 hover:to-purple-3    ';
         case 2:
-            return 'bg-gradient-to-r from-green-600/10 to-teal-600/10 hover:from-green-700/20 hover:to-teal-700/20';
+            return 'bg-gradient-to-r from-green-3 to-teal-3 hover:from-green-4 hover:to-teal-3';
         case 3:
-            return 'bg-gradient-to-r from-red-600/10 to-pink-600/10 hover:from-red-700/20 hover:to-pink-700/20';
+            return 'bg-gradient-to-r from-red-3 to-green-3 hover:from-red-4 hover:to-green-3';
         case 3:
-            return 'bg-gradient-to-r from-red-600/10 to-pink-600/10 hover:from-red-700/20 hover:to-pink-700/20';
+            return 'bg-gradient-to-r from-red-700/10 to-pink-700/10 hover:from-red-700/20 hover:to-pink-700/20';
         default:
-            return 'bg-gradient-to-r from-gray-600/10 to-gray-700/10 hover:from-gray-700/20 hover:to-gray-700/20';
+            return 'bg-gradient-to-r from-gray-3 to-gray-3 hover:from-gray-4 hover:to-gray-3';
     }
 };
 

@@ -24,7 +24,7 @@
         </div>
 
         <div
-            class="p-5 grid gap-15 flex flex-wrap  inline-flex cursor-pointer overflow-y-auto scrollbar-hide rounded-2xl max-h-[calc(100vh-260px)]">
+            class="p-5 grid gap-15 flex flex-wrap  inline-flex cursor-pointer overflow-y-auto scrollbar-hide rounded-2xl h-[calc(100vh-260px)]">
             <div v-for="(order, index) in paginatedOrders" :key="order.id" :class="[
                 'relative h-76 w-120 p-5 rounded-lg transition-all duration-300',
                 ' hover:scale-101 hover:shadow-2xl rounded-2xl',

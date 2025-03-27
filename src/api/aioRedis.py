@@ -3,6 +3,9 @@ from hashlib import md5
 
 from task.core import *
 from utils.request.api import RequestClient
+import asyncio
+import random
+import aioredis
 from loguru import logger
 
 
@@ -71,5 +74,14 @@ async def main():
         await asyncio.sleep(1)
 
 
+class FwdTasks(RedisTaskQueue):
+
+    async def main(self, task):
+        asyncio.create_task(execute_task(task))
+        await asyncio.sleep(1)
+        print(task)
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    task = FwdTasks()
+    asyncio.run(task.start())

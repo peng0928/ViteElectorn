@@ -29,7 +29,7 @@
                 'relative h-76 w-120 p-5 rounded-lg transition-all duration-300',
                 ' hover:scale-101 hover:shadow-2xl rounded-2xl',
                 getCardBackground(order.spider_status),
-            ]">
+            ]" @click="goToPro(order.m5)">
                 <!-- 索引标签 -->
                 <div
                     class="absolute -top-3 -left-3 w-8 h-8 flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold text-lg rounded-full shadow-lg glow">
@@ -76,7 +76,9 @@ import { message } from 'ant-design-vue';
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '../../stores/userStore';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const userStore = useUserStore();
 
 // 订单数据
@@ -211,7 +213,9 @@ const getOrders = async () => {
         message.error('请求异常，请检查网络');
     }
 }
-
+const goToPro = async (id: any) => {
+    router.push({ name: 'pro', params: { params: id } });
+}
 onMounted(() => {
     getOrders();
 })

@@ -6,6 +6,13 @@ from utils.request.api import RequestClient
 from loguru import logger
 
 
+async def make_order(cookie, data):
+    async with RequestClient() as c:
+        response = await c.order_create(cookie, item=data)
+    await asyncio.sleep(5)
+    return response
+
+
 async def subscribe_to_channel(finger, data, cookie):
     redis = aioredis.Redis.from_url(f"redis://{REDIS_HOST}")
     pubsub = redis.pubsub()
@@ -25,10 +32,8 @@ async def subscribe_to_channel(finger, data, cookie):
     async def run_task():
         while not stop_event.is_set():  # 检查是否收到停止信号
             # 执行任务逻辑
-            async with RequestClient() as c:
-                response = await c.order_create(cookie, item=data)
-                print(response)
-            await asyncio.sleep(5)
+            response = await make_order(cookie, data)
+            print(response)
         logger.info(f"[Task] Completed => {finger}")
 
     try:

@@ -12,14 +12,14 @@
 
             <!-- 右侧详情 -->
             <div class="md:w-4/5 h-full flex flex-col">
-                <div class="bg-gray-800 rounded-xl p-6 flex-1 flex flex-col">
+                <div class="bg-gray-800 rounded-xl p-6 flex-1 flex flex-col h-full">
                     <h2 class="text-xl font-bold mb-6 flex items-center">
                         <span class="w-3 h-3 rounded-full bg-green-100 mr-2 animate-pulse"></span>
                         {{ data.name }}
                     </h2>
 
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div v-for="item in stats" :key="item.title" class="bg-gray-700/50 rounded-lg p-4 border-l-4"
+                    <div class="grid grid-cols-2 gap-4 mb-6 overflow-y-auto">
+                        <div v-for="item in stats" :key="item.title" class="bg-gray-700/50 rounded-lg p-4 border-l-4  "
                             :class="`border-${item.color}-500`">
                             <h3 class="text-sm text-gray-400 mb-1">{{ item.title }}</h3>
                             <p class="text-2xl font-mono">{{ data[item.value] }}</p>

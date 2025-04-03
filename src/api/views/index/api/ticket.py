@@ -144,6 +144,6 @@ async def task(request: Request, item: dict):
 @token_required
 async def task_md(request: Request, item: dict):
     m5 = item.get("m5")
-    find_data = {"m5": m5}, {'_id': 0, 'cookie': 0}
-    data = app.state.mongo.find_query(dbConfig.mongo.fwd_task, find_data)
+    find_data = {"m5": m5}
+    data = app.state.mongo.find_query(dbConfig.mongo.fwd_task, find_data, filter={"_id": 0, "cookie": 0})[0]
     return JSONResponse(status_code=200, content={"status": True, "msg": '成功', "code": 200, "data": data})

@@ -173,12 +173,13 @@ class MongoConn:
             print(e)
             return False
 
-    def find_query(self, collection, find_query, sort_field=None, sort_order=None, log=False, limit: int = None):
+    def find_query(self, collection, find_query, sort_field=None, sort_order=None, log=False, limit: int = None,
+                   filter={}):
         mycol = self.mydb[collection]
         if limit:
-            result = mycol.find(find_query).limit(limit)
+            result = mycol.find(find_query, filter).limit(limit)
         else:
-            result = mycol.find(find_query)
+            result = mycol.find(find_query, filter)
         result.sort(sort_field, sort_order) if sort_field else result
         result = list(result)
         if log:
